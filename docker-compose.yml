@@ -1,0 +1,193 @@
+version: '3.8'
+services:
+  frontend-app:
+    build:
+      context: ./frontend-app
+      dockerfile: Dockerfile
+    ports:
+      - 8100:80
+  gateway:
+    image: devopsfaith/krakend:2.5
+    ports:
+      - 8101:8080
+    volumes:
+      - ./gateway/krakend.json:/etc/krakend/krakend.json
+    networks:
+      - backend
+  keycloak:
+    build:
+      context: ./keycloak
+      dockerfile: Dockerfile
+    command: start --optimized --hostname-port 8102
+    ports:
+      - 8102:8443
+    environment:
+      - KC_HEALTH_ENABLED=${SERVICE_KEYCLOAK_HEALTH_ENABLED}
+      - KC_METRICS_ENABLED=${SERVICE_KEYCLOAK_METRICS_ENABLED}
+      - KC_DB=${SERVICE_KEYCLOAK_DB_DRIVER}
+      - KC_HOSTNAME=${SERVICE_KEYCLOAK_DB_HOSTNAME}
+      - KC_DB_USERNAME=${SERVICE_KEYCLOAK_DB_USERNAME}
+      - KC_DB_PASSWORD=${SERVICE_KEYCLOAK_DB_PASSWORD}
+      - KC_DB_URL=jdbc:${SERVICE_KEYCLOAK_DB_DRIVER}://keycloak-db/keycloak
+      - KEYCLOAK_ADMIN=${SERVICE_KEYCLOAK_ADMIN_USERNAME}
+      - KEYCLOAK_ADMIN_PASSWORD=${SERVICE_KEYCLOAK_ADMIN_PASSWORD}
+    networks:
+      - frontend
+      - backend
+    depends_on:
+      keycloak-db:
+        condition: service_healthy
+  keycloak-db:
+    image: mysql:5.7.44
+    restart: always
+    environment:
+      - MYSQL_TCP_PORT=3306
+      - MYSQL_ROOT_PASSWORD=${SERVICE_KEYCLOAK_DB_PASSWORD}
+      - MYSQL_ALLOW_EMPTY_PASSWORD=
+      - MYSQL_RANDOM_ROOT_PASSWORD=
+      - MYSQL_DATABASE=keycloak
+    volumes:
+      - keycloak-db-volume:/var/lib/mysql
+    networks:
+      - backend
+    healthcheck:
+      test: ["CMD", "mysqladmin" ,"ping", "-h", "localhost", "-p=${SERVICE_KEYCLOAK_DB_PASSWORD}"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+  rabbitmq:
+    image: rabbitmq:3.12.8-management-alpine
+    ports:
+      - 8103:15672
+    volumes:
+      - rabbitmq-data-volume:/var/lib/rabbitmq/mnesia
+      - rabbitmq-logs-volume:/var/log/rabbitmq
+    networks:
+      - backend
+    healthcheck:
+      test: rabbitmq-diagnostics -q ping
+      interval: 30s
+      timeout: 30s
+      retries: 3
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.11.3-amd64
+    environment:
+      - ELASTIC_PASSWORD=${ELASTICSEARCH_PASSWORD}
+      - STACK_VERSION=8.11.3
+      # ES_PORT must match with the port that maps to this service (in this case: 8104)
+      # If this does not match you will get a "connection refused" webpage.
+      - ES_PORT=127.0.0.1:8104
+      - discovery.type=single-node
+      - xpack.security.enabled=false
+    ports:
+      - 8104:9200
+    volumes:
+      - elasticsearch-data-volume:/usr/share/elasticsearch/data
+    networks:
+      - backend
+  service-contact-information:
+    build:
+      context: ./
+      dockerfile: ./service-contact-information/Dockerfile
+    networks:
+      - backend
+    depends_on:
+      service-contact-information-db:
+        condition: service_healthy
+  service-contact-information-db:
+    image: mysql:5.7.44
+    restart: always
+    environment:
+      - MYSQL_TCP_PORT=3306
+      - MYSQL_ROOT_PASSWORD=${SERVICE_CONTACT_INFORMATION_DB_ROOT_PASSWORD}
+      - MYSQL_ALLOW_EMPTY_PASSWORD=
+      - MYSQL_RANDOM_ROOT_PASSWORD=
+      - MYSQL_DATABASE=contact-information
+    volumes:
+      - service-contact-information-db-volume:/var/lib/mysql
+    networks:
+      - backend
+    healthcheck:
+      test: ["CMD", "mysqladmin" ,"ping", "-h", "localhost", "-p=${SERVICE_CONTACT_INFORMATION_DB_ROOT_PASSWORD}"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+  service-profile-information:
+    build:
+      context: ./
+      dockerfile: ./service-profile-information/Dockerfile
+    networks:
+      - backend
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+      service-profile-information-db:
+        condition: service_healthy
+  service-profile-information-db:
+    image: mysql:5.7.44
+    restart: always
+    environment:
+      - MYSQL_TCP_PORT=3306
+      - MYSQL_ROOT_PASSWORD=${SERVICE_PROFILE_INFORMATION_DB_ROOT_PASSWORD}
+      - MYSQL_ALLOW_EMPTY_PASSWORD=
+      - MYSQL_RANDOM_ROOT_PASSWORD=
+      - MYSQL_DATABASE=profile-information
+    volumes:
+      - service-profile-information-db-volume:/var/lib/mysql
+    networks:
+      - backend
+    healthcheck:
+      test: ["CMD", "mysqladmin" ,"ping", "-h", "localhost", "-p=${SERVICE_PROFILE_INFORMATION_DB_ROOT_PASSWORD}"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+  service-search-api:
+    build:
+      context: ./
+      dockerfile: ./service-search/api/Dockerfile
+    networks:
+      - backend
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+      service-search-db:
+        condition: service_healthy
+  service-search-event-processor:
+    restart: always
+    build:
+      context: ./
+      dockerfile: ./service-search/event-processor/Dockerfile
+    networks:
+      - backend
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+  service-search-db:
+    image: mysql:5.7.44
+    restart: always
+    environment:
+      - MYSQL_TCP_PORT=3306
+      - MYSQL_ROOT_PASSWORD=${SERVICE_SEARCH_DB_ROOT_PASSWORD}
+      - MYSQL_ALLOW_EMPTY_PASSWORD=
+      - MYSQL_RANDOM_ROOT_PASSWORD=
+      - MYSQL_DATABASE=search
+    volumes:
+      - service-search-db-volume:/var/lib/mysql
+    networks:
+      - backend
+    healthcheck:
+      test: ["CMD", "mysqladmin" ,"ping", "-h", "localhost", "-p=${SERVICE_SEARCH_DB_ROOT_PASSWORD}"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+networks:
+  backend:
+  frontend:
+volumes:
+  keycloak-db-volume:
+  rabbitmq-data-volume:
+  rabbitmq-logs-volume:
+  elasticsearch-data-volume:
+  service-contact-information-db-volume:
+  service-profile-information-db-volume:
+  service-search-db-volume:

@@ -1,0 +1,39 @@
+version: "3"
+
+rpc:
+  listen: tcp://127.0.0.1:6001
+
+amqp:
+  addr: GLCI_AMQP_ADDR
+
+http:
+  address: 0.0.0.0:8080
+
+server:
+  on_init:
+    command: ./service-setup.sh
+  command: "php ./roadrunner/workers/http.php"
+
+jobs:
+  num_pollers: 64
+  timeout: 60
+  pipeline_size: 100000
+
+  pool:
+    num_workers: 10
+    allocate_timeout: 60s
+    destroy_timeout: 60s
+
+  pipelines:
+    GLCI_PROFILE_INFORMATION_QUEUE_NAME:
+      driver: amqp
+      queue: GLCI_PROFILE_INFORMATION_QUEUE_NAME
+      config:
+        redial_timeout: 60
+        queue: GLCI_PROFILE_INFORMATION_QUEUE_NAME
+        exchange_type: direct
+        routing_key: GLCI_PROFILE_INFORMATION_QUEUE_NAME
+        multiple_ack: false
+        requeue_on_fail: true
+        queue_auto_delete: false
+        exchange_auto_delete: false

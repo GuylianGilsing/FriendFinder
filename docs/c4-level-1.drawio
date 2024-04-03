@@ -1,0 +1,33 @@
+<mxfile host="Electron" modified="2024-04-03T16:38:45.277Z" agent="Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/21.6.8 Chrome/114.0.5735.289 Electron/25.5.0 Safari/537.36" etag="_aIReHWR49MYWfNyLgD1" version="21.6.8" type="device">
+  <diagram name="Page-1" id="alb-0G1YIhP4DoUx4Ip5">
+    <mxGraphModel dx="1302" dy="748" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="pxLbm-YEfkJ2cXLBpEJp-3" value="Uses" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;dashed=1;endArrow=block;endFill=1;" parent="1" source="pxLbm-YEfkJ2cXLBpEJp-7" target="pxLbm-YEfkJ2cXLBpEJp-2" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="340" y="200" as="sourcePoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="pxLbm-YEfkJ2cXLBpEJp-5" value="Authenticates&lt;br&gt;users through" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;dashed=1;endArrow=block;endFill=1;" parent="1" source="pxLbm-YEfkJ2cXLBpEJp-2" target="pxLbm-YEfkJ2cXLBpEJp-4" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="pxLbm-YEfkJ2cXLBpEJp-2" value="&lt;b&gt;&lt;font style=&quot;font-size: 16px;&quot;&gt;Friend finder application&lt;/font&gt;&lt;/b&gt;&lt;br&gt;[Software system]&lt;br&gt;&lt;br&gt;Allows users to find friends&lt;br&gt;based on their own preferences." style="rounded=0;whiteSpace=wrap;html=1;fillColor=#1ba1e2;fontColor=#ffffff;strokeColor=#006EAF;" parent="1" vertex="1">
+          <mxGeometry x="400" y="280" width="200" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="pxLbm-YEfkJ2cXLBpEJp-4" value="&lt;b&gt;&lt;font style=&quot;font-size: 16px;&quot;&gt;KeyCloak&lt;/font&gt;&lt;/b&gt;&lt;br&gt;[Software system]&lt;br&gt;&lt;br&gt;Provides user authentication" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#647687;strokeColor=#314354;fontColor=#ffffff;" parent="1" vertex="1">
+          <mxGeometry x="760" y="280" width="200" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="pxLbm-YEfkJ2cXLBpEJp-8" value="" style="group" parent="1" vertex="1" connectable="0">
+          <mxGeometry x="440" y="40" width="120" height="160" as="geometry" />
+        </mxCell>
+        <mxCell id="pxLbm-YEfkJ2cXLBpEJp-7" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="pxLbm-YEfkJ2cXLBpEJp-8" vertex="1">
+          <mxGeometry width="120" height="160" as="geometry" />
+        </mxCell>
+        <mxCell id="pxLbm-YEfkJ2cXLBpEJp-6" value="&lt;font style=&quot;border-color: var(--border-color); color: rgb(51, 51, 51); font-size: 16px;&quot;&gt;&lt;b style=&quot;border-color: var(--border-color);&quot;&gt;User&lt;/b&gt;&lt;br style=&quot;border-color: var(--border-color);&quot;&gt;&lt;/font&gt;&lt;font style=&quot;border-color: var(--border-color); color: rgb(51, 51, 51);&quot;&gt;[Person]&lt;/font&gt;&lt;br style=&quot;border-color: var(--border-color); color: rgb(51, 51, 51);&quot;&gt;&lt;br style=&quot;border-color: var(--border-color); color: rgb(51, 51, 51);&quot;&gt;Uses the application&lt;br style=&quot;border-color: var(--border-color); color: rgb(51, 51, 51);&quot;&gt;&lt;span style=&quot;color: rgb(51, 51, 51);&quot;&gt;to find friends&lt;/span&gt;" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;" parent="pxLbm-YEfkJ2cXLBpEJp-8" vertex="1">
+          <mxGeometry x="45" y="10" width="30" height="60" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

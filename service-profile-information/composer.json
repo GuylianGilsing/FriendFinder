@@ -1,0 +1,69 @@
+{
+    "name": "guyliangilsing/s6-friend-finder-service-profile-information",
+    "description": "Micro service that handles everything that has to do with storing profile information.",
+    "type": "project",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Guylian Gilsing",
+            "email": "gilsingguylian@gmail.com"
+        }
+    ],
+    "autoload": {
+        "files": [
+            "./src/ProfileInformation/_dependency-injection.php",
+            "./src/bootstrap.php",
+            "./src/setup.php",
+            "./env.php"
+        ],
+        "psr-4": {
+            "FriendFinder\\": "./src"
+        }
+    },
+    "require": {
+        "php": ">=8.2",
+        "framework/api": "dev-main",
+        "guyliangilsing/s6-friend-finder-lib-common": "dev-main",
+        "slim/slim": "^4.12",
+        "slim/psr7": "^1.6",
+        "php-di/php-di": "^7.0",
+        "php-di/slim-bridge": "^3.4",
+        "monolog/monolog": "^3.5",
+        "doctrine/orm": "^2.16",
+        "doctrine/migrations": "^3.6",
+        "ramsey/uuid-doctrine": "^2.0",
+        "spiral/roadrunner-http": "^3.2",
+        "symfony/cache": "^6.3",
+        "spiral/roadrunner-jobs": "^4.3"
+    },
+    "require-dev": {
+        "roave/security-advisories": "dev-latest",
+        "nunomaduro/phpinsights": "^2.9",
+        "pestphp/pest": "^2.24",
+        "mockery/mockery": "^1.6"
+    },
+    "config": {
+        "allow-plugins": {
+            "pestphp/pest-plugin": true,
+            "dealerdirect/phpcodesniffer-composer-installer": true
+        }
+    },
+    "scripts": {
+        "lint": "./vendor/bin/phpinsights analyse -v",
+        "lint:fix": "./vendor/bin/phpinsights analyse --fix",
+        "tests": "./vendor/bin/pest",
+        "tests:unit": "./vendor/bin/pest --testsuite unit",
+        "tests:feature": "./vendor/bin/pest --testsuite feature",
+        "tests:coverage": "./vendor/bin/pest --coverage-html ./coverage"
+    },
+    "repositories": [
+        {
+            "type": "path",
+            "url": "../lib-api-framework"
+        },
+        {
+            "type": "path",
+            "url": "../lib-common"
+        }
+    ]
+}

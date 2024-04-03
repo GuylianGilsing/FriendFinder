@@ -1,0 +1,56 @@
+{
+    "name": "guyliangilsing/s6-friend-finder-lib-common",
+    "description": "Common functionality that can be used inside any backend.",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Guylian Gilsing",
+            "email": "gilsingguylian@gmail.com"
+        }
+    ],
+    "autoload": {
+        "files": [
+            "./src/Common/_authorization.php",
+            "./src/Common/_dependency-injection.php",
+            "./src/Common/_http.php",
+            "./src/Common/_json.php",
+            "./src/Common/_paths.php",
+            "./src/Common/_strings.php",
+            "./src/Common/_urls.php"
+        ],
+        "psr-4": {
+            "FriendFinder\\": "./src"
+        }
+    },
+    "require": {
+        "php": ">=8.2",
+        "guyliangilsing/php-validation": "^1.2",
+        "psr/http-message": "^1.0",
+        "slim/psr7": "^1.6",
+        "spiral/roadrunner-http": "^3.2",
+        "php-di/php-di": "^7.0",
+        "ramsey/uuid": "^4.7",
+        "doctrine/orm": "^2.17"
+    },
+    "require-dev": {
+        "roave/security-advisories": "dev-latest",
+        "nunomaduro/phpinsights": "^2.9",
+        "pestphp/pest": "^2.24",
+        "mockery/mockery": "^1.6"
+    },
+    "config": {
+        "allow-plugins": {
+            "dealerdirect/phpcodesniffer-composer-installer": true,
+            "pestphp/pest-plugin": true
+        }
+    },
+    "scripts": {
+        "lint": "./vendor/bin/phpinsights analyse -v",
+        "lint:fix": "./vendor/bin/phpinsights analyse --fix",
+        "tests": "./vendor/bin/pest",
+        "tests:unit": "./vendor/bin/pest --testsuite unit",
+        "tests:feature": "./vendor/bin/pest --testsuite feature",
+        "tests:coverage": "./vendor/bin/pest --coverage-html ./coverage"
+    }
+}

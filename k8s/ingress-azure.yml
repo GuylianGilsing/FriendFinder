@@ -1,0 +1,30 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ingress-azure
+spec:
+  ingressClassName: webapprouting.kubernetes.azure.com
+  rules:
+    - http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: service-frontend-app
+                port:
+                  number: 80 # Service port
+          - path: /keycloak
+            pathType: Prefix
+            backend:
+              service:
+                name: service-keycloak
+                port:
+                  number: 8080 # Service port
+          - path: /api
+            pathType: Prefix
+            backend:
+              service:
+                name: service-gateway
+                port:
+                  number: 8080 # Service port

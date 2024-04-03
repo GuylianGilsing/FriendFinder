@@ -1,0 +1,47 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pod-frontend-app
+  labels:
+    app: pod-frontend-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: pod-frontend-app
+  template:
+    metadata:
+      labels:
+        app: pod-frontend-app
+    spec:
+      restartPolicy: Always
+      containers:
+      - name: pod-frontend-app
+        image: guyliangilsing/s6-friend-finder:frontend-app
+        imagePullPolicy: Always
+        readinessProbe:
+          httpGet:
+            path: /
+            port: 80 # Pod port
+          initialDelaySeconds: 5
+          timeoutSeconds: 2
+          successThreshold: 1
+          failureThreshold: 3
+          periodSeconds: 10
+        ports:
+          - containerPort: 80 # Pod port
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: service-frontend-app
+  labels:
+    app: service-frontend-app
+spec:
+  selector:
+    app: pod-frontend-app
+  type: ClusterIP # Internal IP address
+  ports:
+    - protocol: TCP
+      port: 80 # Service port
+      targetPort: 80 # Pod port

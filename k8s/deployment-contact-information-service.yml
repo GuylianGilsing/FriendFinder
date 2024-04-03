@@ -1,0 +1,47 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pod-contact-information
+  labels:
+    app: pod-contact-information
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: pod-contact-information
+  template:
+    metadata:
+      labels:
+        app: pod-contact-information
+    spec:
+      restartPolicy: Always
+      containers:
+      - name: pod-contact-information
+        image: guyliangilsing/s6-friend-finder:service-contact-information
+        imagePullPolicy: Always
+        readinessProbe:
+          httpGet:
+            path: /healthcheck
+            port: 8080 # Pod port
+          initialDelaySeconds: 5
+          timeoutSeconds: 2
+          successThreshold: 1
+          failureThreshold: 3
+          periodSeconds: 10
+        ports:
+          - containerPort: 8080 # Pod port
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: service-contact-information
+  labels:
+    app: service-contact-information
+spec:
+  selector:
+    app: pod-contact-information
+  type: ClusterIP # Internal IP address
+  ports:
+    - protocol: TCP
+      port: 8080 # Service port
+      targetPort: 8080 # Pod port

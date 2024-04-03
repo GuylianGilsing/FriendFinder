@@ -1,0 +1,72 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pod-keycloak
+  labels:
+    app: pod-keycloak
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: pod-keycloak
+  template:
+    metadata:
+      labels:
+        app: pod-keycloak
+    spec:
+      restartPolicy: Always
+      containers:
+      - name: pod-keycloak
+        image: guyliangilsing/s6-friend-finder:keycloak
+        imagePullPolicy: Always
+        readinessProbe:
+          httpGet:
+            path: /health/ready
+            port: 8443 # Pod port
+          initialDelaySeconds: 5
+          timeoutSeconds: 2
+          successThreshold: 1
+          failureThreshold: 3
+          periodSeconds: 10
+        env:
+          - name: KC_HEALTH_ENABLED
+            value: "true"
+          - name: SERVICE_KEYCLOAK_METRICS_ENABLED
+            value: "false"
+          - name: KC_DB
+            value: mysql
+          - name: KC_HOSTNAME
+            value: s6-friend-finder-keycloak-db.mysql.database.azure.com
+          - name: KC_DB_USERNAME
+            value: keycloak
+          - name: KC_DB_PASSWORD
+            value: BzXTF3KDam2VpokXdPTMQa7obgiqwpoV
+          - name: KC_DB_URL
+            value: jdbc:mysql://s6-friend-finder-keycloak-db.mysql.database.azure.com/keycloak
+          - name: KEYCLOAK_ADMIN
+            value: admin
+          - name: KEYCLOAK_ADMIN_PASSWORD
+            value: admin
+        ports:
+          - containerPort: 8080 # Pod port
+          - containerPort: 8443 # Pod port
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: service-keycloak
+  labels:
+    app: service-keycloak
+spec:
+  selector:
+    app: pod-keycloak
+  type: ClusterIP # Internal IP address
+  ports:
+    - name: service-keycloak-realm-port
+      protocol: TCP
+      port: 8080 # Service port
+      targetPort: 8080 # Pod port
+    - name: service-keycloak-admin-port
+      protocol: TCP
+      port: 8081 # Service port
+      targetPort: 8443 # Pod port

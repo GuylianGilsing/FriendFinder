@@ -1,0 +1,5 @@
+# Ignore all
+*
+
+# Keep gitignore so this folder always exists within version control
+!.gitignore

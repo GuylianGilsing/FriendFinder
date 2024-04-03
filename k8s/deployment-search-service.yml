@@ -1,0 +1,78 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pod-search
+  labels:
+    app: pod-search
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: pod-search
+  template:
+    metadata:
+      labels:
+        app: pod-search
+    spec:
+      restartPolicy: Always
+      containers:
+      - name: pod-search-api
+        image: guyliangilsing/s6-friend-finder:service-search-api
+        imagePullPolicy: Always
+        # readinessProbe:
+        #   httpGet:
+        #     path: /healthcheck
+        #     port: 8080 # Pod port
+        #   initialDelaySeconds: 5
+        #   timeoutSeconds: 2
+        #   successThreshold: 1
+        #   failureThreshold: 3
+        #   periodSeconds: 10
+        ports:
+          - containerPort: 8080 # Pod port
+      - name: pod-search-event-processor
+        image: guyliangilsing/s6-friend-finder:service-search-event-processor
+        imagePullPolicy: Always
+        ports:
+          - containerPort: 8081 # Pod port
+      - name: pod-search-elastic-search
+        image: docker.elastic.co/elasticsearch/elasticsearch:8.11.3-amd64
+        imagePullPolicy: Always
+        # readinessProbe:
+        #   httpGet:
+        #     # Wait for elasticsearch to allocate all shards
+        #     path: /_cluster/health?wait_for_status=green&timeout=50s
+        #     port: 8082 # Pod port
+        #   initialDelaySeconds: 5
+        #   timeoutSeconds: 2
+        #   successThreshold: 1
+        #   failureThreshold: 20
+        #   periodSeconds: 120
+        env:
+          - name: ELASTIC_PASSWORD
+            value: admin
+          - name: STACK_VERSION
+            value: "8.11.3"
+          - name: ES_PORT
+            value: 127.0.0.1:8082
+          - name: discovery.type
+            value: single-node
+          - name: xpack.security.enabled
+            value: "false"
+        ports:
+          - containerPort: 8082 # Pod port
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: service-search
+  labels:
+    app: service-search
+spec:
+  selector:
+    app: pod-search-api
+  type: ClusterIP # Internal IP address
+  ports:
+    - protocol: TCP
+      port: 8080 # Service port
+      targetPort: 8080 # Pod port

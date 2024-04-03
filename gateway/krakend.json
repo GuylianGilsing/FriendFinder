@@ -1,0 +1,249 @@
+{
+    "$schema": "https://www.krakend.io/schema/v2.5/krakend.json",
+    "version": 3,
+    "port": 8080,
+    "endpoints": [
+        {
+            "endpoint": "/api/contact-information",
+            "method": "GET",
+            "input_headers": ["Content-Type", "Authorization"],
+            "output_encoding": "no-op",
+            "backend": [
+                {
+                    "url_pattern": "/contact-information",
+                    "host": ["http://service-contact-information:8080"],
+                    "input_headers": ["Content-Type", "Authorization"],
+                    "method": "GET",
+                    "encoding": "no-op"
+                }
+            ],
+            "extra_config": {
+                "auth/validator": {
+                    "alg": "RS256",
+                    "jwk_url": "https://keycloak:8443/realms/friend-finder/protocol/openid-connect/certs",
+                    "disable_jwk_security": true
+                }
+            }
+        },
+        {
+            "endpoint": "/api/contact-information",
+            "method": "POST",
+            "input_headers": ["Content-Type", "Authorization"],
+            "output_encoding": "no-op",
+            "backend": [
+                {
+                    "url_pattern": "/contact-information",
+                    "host": ["http://service-contact-information:8080"],
+                    "input_headers": ["Content-Type", "Authorization"],
+                    "method": "POST",
+                    "encoding": "no-op"
+                }
+            ],
+            "extra_config": {
+                "auth/validator": {
+                    "alg": "RS256",
+                    "jwk_url": "https://keycloak:8443/realms/friend-finder/protocol/openid-connect/certs",
+                    "disable_jwk_security": true
+                }
+            }
+        },
+        {
+            "endpoint": "/api/contact-information/{id}",
+            "method": "GET",
+            "input_headers": ["Content-Type", "Authorization"],
+            "input_query_strings": ["id"],
+            "output_encoding": "no-op",
+            "backend": [
+                {
+                    "url_pattern": "/contact-information/{id}",
+                    "host": ["http://service-contact-information:8080"],
+                    "input_headers": ["Content-Type", "Authorization"],
+                    "input_query_strings": ["id"],
+                    "method": "GET",
+                    "encoding": "no-op"
+                }
+            ],
+            "extra_config": {
+                "auth/validator": {
+                    "alg": "RS256",
+                    "jwk_url": "https://keycloak:8443/realms/friend-finder/protocol/openid-connect/certs",
+                    "disable_jwk_security": true
+                }
+            }
+        },
+        {
+            "endpoint": "/api/contact-information/{id}/answer",
+            "method": "GET",
+            "input_headers": ["Content-Type", "Authorization"],
+            "input_query_strings": ["id"],
+            "output_encoding": "no-op",
+            "backend": [
+                {
+                    "url_pattern": "/contact-information/{id}/answer",
+                    "host": ["http://service-contact-information:8080"],
+                    "input_headers": ["Authorization"],
+                    "input_query_strings": ["id"],
+                    "method": "GET",
+                    "encoding": "no-op"
+                }
+            ],
+            "extra_config": {
+                "auth/validator": {
+                    "alg": "RS256",
+                    "jwk_url": "https://keycloak:8443/realms/friend-finder/protocol/openid-connect/certs",
+                    "disable_jwk_security": true
+                }
+            }
+        },
+        {
+            "endpoint": "/api/contact-information/{id}/answer",
+            "method": "POST",
+            "input_headers": ["Content-Type", "Authorization"],
+            "input_query_strings": ["id"],
+            "output_encoding": "no-op",
+            "backend": [
+                {
+                    "url_pattern": "/contact-information/{id}/answer",
+                    "host": ["http://service-contact-information:8080"],
+                    "input_headers": ["Content-Type", "Authorization"],
+                    "input_query_strings": ["id"],
+                    "method": "POST",
+                    "encoding": "no-op"
+                }
+            ],
+            "extra_config": {
+                "auth/validator": {
+                    "alg": "RS256",
+                    "jwk_url": "https://keycloak:8443/realms/friend-finder/protocol/openid-connect/certs",
+                    "disable_jwk_security": true
+                }
+            }
+        },
+        {
+            "endpoint": "/api/contact-information/options",
+            "method": "GET",
+            "input_headers": ["Content-Type", "Authorization"],
+            "output_encoding": "no-op",
+            "backend": [
+                {
+                    "url_pattern": "/contact-information/options",
+                    "host": ["http://service-contact-information:8080"],
+                    "input_headers": ["Content-Type", "Authorization"],
+                    "method": "GET",
+                    "encoding": "no-op"
+                }
+            ],
+            "extra_config": {
+                "auth/validator": {
+                    "alg": "RS256",
+                    "jwk_url": "https://keycloak:8443/realms/friend-finder/protocol/openid-connect/certs",
+                    "disable_jwk_security": true
+                }
+            }
+        },
+        {
+            "endpoint": "/api/profile-information",
+            "method": "POST",
+            "input_headers": ["Content-Type", "Authorization"],
+            "output_encoding": "no-op",
+            "backend": [
+                {
+                    "url_pattern": "/profile-information",
+                    "host": ["http://service-profile-information:8080"],
+                    "input_headers": ["Content-Type", "Authorization"],
+                    "method": "POST",
+                    "encoding": "no-op"
+                }
+            ],
+            "extra_config": {
+                "auth/validator": {
+                    "alg": "RS256",
+                    "jwk_url": "https://keycloak:8443/realms/friend-finder/protocol/openid-connect/certs",
+                    "disable_jwk_security": true
+                }
+            }
+        },
+        {
+            "endpoint": "/api/profile-information/{identity}",
+            "method": "GET",
+            "input_headers": ["Content-Type", "Authorization"],
+            "input_query_strings": ["identity"],
+            "output_encoding": "no-op",
+            "backend": [
+                {
+                    "url_pattern": "/profile-information/{identity}",
+                    "host": ["http://service-profile-information:8080"],
+                    "input_headers": ["Content-Type", "Authorization"],
+                    "input_query_strings": ["identity"],
+                    "method": "GET",
+                    "encoding": "no-op"
+                }
+            ],
+            "extra_config": {
+                "auth/validator": {
+                    "alg": "RS256",
+                    "jwk_url": "https://keycloak:8443/realms/friend-finder/protocol/openid-connect/certs",
+                    "disable_jwk_security": true
+                }
+            }
+        },
+        {
+            "endpoint": "/api/profile-information/{identity}",
+            "method": "DELETE",
+            "input_headers": ["Content-Type", "Authorization"],
+            "input_query_strings": ["identity"],
+            "output_encoding": "no-op",
+            "backend": [
+                {
+                    "url_pattern": "/profile-information/{identity}",
+                    "host": ["http://service-profile-information:8080"],
+                    "input_headers": ["Content-Type", "Authorization"],
+                    "input_query_strings": ["identity"],
+                    "method": "DELETE",
+                    "encoding": "no-op"
+                }
+            ],
+            "extra_config": {
+                "auth/validator": {
+                    "alg": "RS256",
+                    "jwk_url": "https://keycloak:8443/realms/friend-finder/protocol/openid-connect/certs",
+                    "disable_jwk_security": true
+                }
+            }
+        },
+        {
+            "endpoint": "/api/search/profile",
+            "method": "GET",
+            "input_headers": ["Content-Type", "Authorization"],
+            "output_encoding": "no-op",
+            "backend": [
+                {
+                    "url_pattern": "/search/profile",
+                    "host": ["http://service-search-api:8080"],
+                    "input_headers": ["Content-Type", "Authorization"],
+                    "method": "GET",
+                    "encoding": "no-op"
+                }
+            ],
+            "extra_config": {
+                "auth/validator": {
+                    "alg": "RS256",
+                    "jwk_url": "https://keycloak:8443/realms/friend-finder/protocol/openid-connect/certs",
+                    "disable_jwk_security": true
+                }
+            }
+        }
+    ],
+    "extra_config": {
+        "router": {
+            "auto_options": true
+         },
+         "security/cors": {
+            "allow_origins": ["http://127.0.0.1:8080", "http://127.0.0.1:8100"],
+            "allow_methods": ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+            "allow_headers": ["Origin", "Authorization", "Content-Type", "Accept", "Referer", "User-Agent"],
+            "expose_headers": ["Content-Length", "Content-Type"],
+            "allow_credentials": true
+         }
+    }
+}

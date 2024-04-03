@@ -1,0 +1,39 @@
+version: "3"
+
+rpc:
+  listen: tcp://127.0.0.1:6001
+
+amqp:
+  addr: amqp://guest:guest@rabbitmq:5672
+
+http:
+  address: 0.0.0.0:8080
+
+server:
+  on_init:
+    command: ./service-setup.sh
+  command: "php ./roadrunner/workers/http.php"
+
+jobs:
+  num_pollers: 64
+  timeout: 60
+  pipeline_size: 100000
+
+  pool:
+    num_workers: 10
+    allocate_timeout: 60s
+    destroy_timeout: 60s
+
+  pipelines:
+    profile-information:
+      driver: amqp
+      queue: profile-information
+      config:
+        redial_timeout: 60
+        queue: profile-information
+        exchange_type: direct
+        routing_key: profile-information
+        multiple_ack: false
+        requeue_on_fail: true
+        queue_auto_delete: false
+        exchange_auto_delete: false

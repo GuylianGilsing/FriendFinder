@@ -1,0 +1,29 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html, body {
+    width: 100vw;
+    min-height: 100vh;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    overflow-y: auto;
+}
+
+#main-content {
+    flex-grow: 1;
+}
+
+#main-header + #main-content:has(+ #main-footer) {
+    $headerHeight: 64px;
+    $footerHeight: 85px;
+
+    max-height: calc(100vh - $headerHeight - $footerHeight);
+}
+
+#app-layout-loader-wrapper {
+    transform: translate(-50%, -50%);
+}

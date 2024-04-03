@@ -1,0 +1,143 @@
+<mxfile host="Electron" modified="2024-04-03T16:45:13.507Z" agent="Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/21.6.8 Chrome/114.0.5735.289 Electron/25.5.0 Safari/537.36" etag="O3q58PYb7XGhEWN3kaeS" version="21.6.8" type="device">
+  <diagram name="Page-1" id="kuJznS0DVoPpEwPFq2Hu">
+    <mxGraphModel dx="3471" dy="1993" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="ojdyIvmKSNVb5ML1ykqz-10" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=none;" parent="1" vertex="1">
+          <mxGeometry x="40" y="680" width="1480" height="200" as="geometry" />
+        </mxCell>
+        <mxCell id="ojdyIvmKSNVb5ML1ykqz-1" value="" style="group" parent="1" vertex="1" connectable="0">
+          <mxGeometry x="720" y="40" width="120" height="160" as="geometry" />
+        </mxCell>
+        <mxCell id="ojdyIvmKSNVb5ML1ykqz-2" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="ojdyIvmKSNVb5ML1ykqz-1" vertex="1">
+          <mxGeometry width="120" height="160" as="geometry" />
+        </mxCell>
+        <mxCell id="ojdyIvmKSNVb5ML1ykqz-3" value="&lt;font style=&quot;border-color: var(--border-color); color: rgb(51, 51, 51); font-size: 16px;&quot;&gt;&lt;b style=&quot;border-color: var(--border-color);&quot;&gt;User&lt;/b&gt;&lt;br style=&quot;border-color: var(--border-color);&quot;&gt;&lt;/font&gt;&lt;font style=&quot;border-color: var(--border-color); color: rgb(51, 51, 51);&quot;&gt;[Person]&lt;/font&gt;&lt;br style=&quot;border-color: var(--border-color); color: rgb(51, 51, 51);&quot;&gt;&lt;br style=&quot;border-color: var(--border-color); color: rgb(51, 51, 51);&quot;&gt;Uses the application&lt;br style=&quot;border-color: var(--border-color); color: rgb(51, 51, 51);&quot;&gt;&lt;span style=&quot;color: rgb(51, 51, 51);&quot;&gt;to find friends&lt;/span&gt;" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;" parent="ojdyIvmKSNVb5ML1ykqz-1" vertex="1">
+          <mxGeometry x="45" y="10" width="30" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="ojdyIvmKSNVb5ML1ykqz-19" value="Routes&lt;br&gt;requests to" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;dashed=1;endArrow=block;endFill=1;" parent="1" source="ojdyIvmKSNVb5ML1ykqz-4" target="ojdyIvmKSNVb5ML1ykqz-10" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="ojdyIvmKSNVb5ML1ykqz-34" value="Authenticates&lt;br&gt;requests with" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;dashed=1;endArrow=block;endFill=1;" parent="1" source="ojdyIvmKSNVb5ML1ykqz-4" target="ojdyIvmKSNVb5ML1ykqz-33" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="ojdyIvmKSNVb5ML1ykqz-4" value="&lt;b&gt;&lt;font style=&quot;font-size: 16px;&quot;&gt;API gateway&lt;/font&gt;&lt;/b&gt;&lt;br&gt;[KrakenD]&lt;br&gt;&lt;br&gt;Distributes all API calls to the relevant services" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#647687;fontColor=#ffffff;strokeColor=#314354;" parent="1" vertex="1">
+          <mxGeometry x="240" y="480" width="1080" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="ojdyIvmKSNVb5ML1ykqz-26" value="Persists&lt;br&gt;data through" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;dashed=1;endArrow=block;endFill=1;" parent="1" source="ojdyIvmKSNVb5ML1ykqz-5" target="ojdyIvmKSNVb5ML1ykqz-25" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="ojdyIvmKSNVb5ML1ykqz-5" value="&lt;b&gt;&lt;font style=&quot;font-size: 16px;&quot;&gt;Contact information request service&lt;/font&gt;&lt;/b&gt;&lt;br&gt;[RoadRunner + Slim 4]&lt;br&gt;&lt;br&gt;Handles all contact&lt;br&gt;information requests" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#1ba1e2;fontColor=#ffffff;strokeColor=#006EAF;" parent="1" vertex="1">
+          <mxGeometry x="360" y="720" width="240" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="EWogtiMlTXVDmMaVuwzW-2" value="Persists&lt;br style=&quot;border-color: var(--border-color);&quot;&gt;data through" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;dashed=1;endArrow=block;endFill=1;" parent="1" source="ojdyIvmKSNVb5ML1ykqz-6" target="EWogtiMlTXVDmMaVuwzW-1" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="12IVtjBrIT6F_KcPU9RN-17" value="Sends data updates&lt;br style=&quot;border-color: var(--border-color);&quot;&gt;as events to" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;dashed=1;endArrow=block;endFill=1;" parent="1" source="ojdyIvmKSNVb5ML1ykqz-6" target="12IVtjBrIT6F_KcPU9RN-16" edge="1">
+          <mxGeometry x="0.6875" relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="780" y="1100" />
+              <mxPoint x="780" y="1100" />
+            </Array>
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="ojdyIvmKSNVb5ML1ykqz-6" value="&lt;b&gt;&lt;font style=&quot;font-size: 16px;&quot;&gt;Profile information service&lt;/font&gt;&lt;/b&gt;&lt;br&gt;[RoadRunner + Slim 4]&lt;br&gt;&lt;br&gt;Stores all profile information" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#1ba1e2;fontColor=#ffffff;strokeColor=#006EAF;" parent="1" vertex="1">
+          <mxGeometry x="660" y="720" width="240" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="ojdyIvmKSNVb5ML1ykqz-32" value="Searches&lt;br style=&quot;border-color: var(--border-color);&quot;&gt;data with" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;dashed=1;endArrow=block;endFill=1;" parent="1" source="ojdyIvmKSNVb5ML1ykqz-7" target="ojdyIvmKSNVb5ML1ykqz-29" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="FutA6SevXXwzOcaBP_XX-2" value="Persists&lt;br style=&quot;border-color: var(--border-color);&quot;&gt;data through" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;dashed=1;" parent="1" source="ojdyIvmKSNVb5ML1ykqz-7" target="FutA6SevXXwzOcaBP_XX-1" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="ojdyIvmKSNVb5ML1ykqz-7" value="&lt;b&gt;&lt;font style=&quot;font-size: 16px;&quot;&gt;Search service&lt;/font&gt;&lt;/b&gt;&lt;br&gt;[RoadRunner + Slim 4]&lt;br&gt;&lt;br&gt;Handles all profile searches" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#1ba1e2;fontColor=#ffffff;strokeColor=#006EAF;" parent="1" vertex="1">
+          <mxGeometry x="1220" y="720" width="240" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="ojdyIvmKSNVb5ML1ykqz-22" value="Makes requests to" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;dashed=1;endArrow=block;endFill=1;" parent="1" source="ojdyIvmKSNVb5ML1ykqz-20" target="ojdyIvmKSNVb5ML1ykqz-4" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="B0_EtS0rBYMPzbcSV6H1-1" value="Authenticates&lt;br&gt;users through" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;dashed=1;endArrow=block;endFill=1;" parent="1" source="ojdyIvmKSNVb5ML1ykqz-20" target="ojdyIvmKSNVb5ML1ykqz-33" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="ojdyIvmKSNVb5ML1ykqz-20" value="&lt;b&gt;&lt;font style=&quot;font-size: 16px;&quot;&gt;Frontend&lt;/font&gt;&lt;/b&gt;&lt;br&gt;[Vite + Vue.js]&lt;br&gt;&lt;br&gt;The application that the&lt;br&gt;user interacts with" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#1ba1e2;fontColor=#ffffff;strokeColor=#006EAF;" parent="1" vertex="1">
+          <mxGeometry x="660" y="280" width="240" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="ojdyIvmKSNVb5ML1ykqz-21" value="Uses" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;dashed=1;endArrow=block;endFill=1;" parent="1" source="ojdyIvmKSNVb5ML1ykqz-2" target="ojdyIvmKSNVb5ML1ykqz-20" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="ojdyIvmKSNVb5ML1ykqz-25" value="&lt;b&gt;&lt;font style=&quot;font-size: 16px;&quot;&gt;Relational database&lt;/font&gt;&lt;/b&gt;&lt;br&gt;[MariaDB]&lt;br&gt;&lt;br&gt;Persists all contact information&lt;br&gt;requests and answers" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#647687;fontColor=#ffffff;strokeColor=#314354;" parent="1" vertex="1">
+          <mxGeometry x="360" y="960" width="240" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="ojdyIvmKSNVb5ML1ykqz-29" value="&lt;b&gt;&lt;font style=&quot;font-size: 16px;&quot;&gt;Elasticsearch&lt;/font&gt;&lt;/b&gt;&lt;br&gt;[NoSQL]&lt;br&gt;&lt;br&gt;Database that provides&lt;br&gt;near real-time searches" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#647687;fontColor=#ffffff;strokeColor=#314354;" parent="1" vertex="1">
+          <mxGeometry x="1080" y="960" width="240" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="ojdyIvmKSNVb5ML1ykqz-36" value="Persists&lt;br style=&quot;border-color: var(--border-color);&quot;&gt;data through" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;dashed=1;endArrow=block;endFill=1;" parent="1" source="ojdyIvmKSNVb5ML1ykqz-33" target="ojdyIvmKSNVb5ML1ykqz-35" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="ojdyIvmKSNVb5ML1ykqz-33" value="&lt;b&gt;&lt;font style=&quot;font-size: 16px;&quot;&gt;Identity Provider&lt;/font&gt;&lt;/b&gt;&lt;br&gt;[KeyCloak]&lt;br&gt;&lt;br&gt;Provides authentication" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#647687;fontColor=#ffffff;strokeColor=#314354;" parent="1" vertex="1">
+          <mxGeometry x="1440" y="480" width="240" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="ojdyIvmKSNVb5ML1ykqz-35" value="&lt;b&gt;&lt;font style=&quot;font-size: 16px;&quot;&gt;Relational database&lt;/font&gt;&lt;/b&gt;&lt;br&gt;[MariaDB]&lt;br&gt;&lt;br&gt;Persists all data" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#647687;fontColor=#ffffff;strokeColor=#314354;" parent="1" vertex="1">
+          <mxGeometry x="1800" y="480" width="240" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="EWogtiMlTXVDmMaVuwzW-1" value="&lt;b style=&quot;border-color: var(--border-color);&quot;&gt;&lt;font style=&quot;border-color: var(--border-color); font-size: 16px;&quot;&gt;Relational database&lt;/font&gt;&lt;/b&gt;&lt;br style=&quot;border-color: var(--border-color);&quot;&gt;[MariaDB]&lt;br style=&quot;border-color: var(--border-color);&quot;&gt;&lt;br style=&quot;border-color: var(--border-color);&quot;&gt;Persists all&lt;br style=&quot;border-color: var(--border-color);&quot;&gt;profile information" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#647687;fontColor=#ffffff;strokeColor=#314354;" parent="1" vertex="1">
+          <mxGeometry x="800" y="960" width="240" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="EWogtiMlTXVDmMaVuwzW-6" value="Persists&lt;br style=&quot;border-color: var(--border-color);&quot;&gt;data through" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;dashed=1;endArrow=block;endFill=1;" parent="1" source="EWogtiMlTXVDmMaVuwzW-4" target="EWogtiMlTXVDmMaVuwzW-5" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="EWogtiMlTXVDmMaVuwzW-4" value="&lt;b&gt;&lt;font style=&quot;font-size: 16px;&quot;&gt;Moderation service&lt;/font&gt;&lt;/b&gt;&lt;br&gt;[RoadRunner + Slim 4]&lt;br&gt;&lt;br&gt;Handles all moderation functionality" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#1ba1e2;fontColor=#ffffff;strokeColor=#006EAF;" parent="1" vertex="1">
+          <mxGeometry x="80" y="720" width="240" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="EWogtiMlTXVDmMaVuwzW-5" value="&lt;b&gt;&lt;font style=&quot;font-size: 16px;&quot;&gt;Relational database&lt;/font&gt;&lt;/b&gt;&lt;br&gt;[MariaDB]&lt;br&gt;&lt;br&gt;Persists all user reports" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#647687;fontColor=#ffffff;strokeColor=#314354;" parent="1" vertex="1">
+          <mxGeometry x="80" y="960" width="240" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="FutA6SevXXwzOcaBP_XX-1" value="&lt;b&gt;&lt;font style=&quot;font-size: 16px;&quot;&gt;Relational database&lt;/font&gt;&lt;/b&gt;&lt;br&gt;[MariaDB]&lt;br&gt;&lt;br&gt;Persists all&lt;br&gt;search preferences" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#647687;fontColor=#ffffff;strokeColor=#314354;" parent="1" vertex="1">
+          <mxGeometry x="1360" y="960" width="240" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="12IVtjBrIT6F_KcPU9RN-16" value="&lt;font style=&quot;border-color: var(--border-color); font-size: 16px;&quot;&gt;Event bus&lt;/font&gt;&lt;br style=&quot;border-color: var(--border-color);&quot;&gt;&lt;i style=&quot;border-color: var(--border-color);&quot;&gt;[RabbitMQ]&lt;/i&gt;&lt;br style=&quot;border-color: var(--border-color);&quot;&gt;&lt;br style=&quot;border-color: var(--border-color);&quot;&gt;Collects all events and&lt;br style=&quot;border-color: var(--border-color);&quot;&gt;distributes them to listeners" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#647687;fontColor=#ffffff;strokeColor=#314354;" parent="1" vertex="1">
+          <mxGeometry x="520" y="1400" width="1080" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="12IVtjBrIT6F_KcPU9RN-21" value="Sends&lt;br style=&quot;border-color: var(--border-color);&quot;&gt;commands to" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;dashed=1;endArrow=block;endFill=1;" parent="1" source="12IVtjBrIT6F_KcPU9RN-19" target="ojdyIvmKSNVb5ML1ykqz-29" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1200" y="1260" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="12IVtjBrIT6F_KcPU9RN-22" value="Polls for data update &lt;br&gt;events from" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;dashed=1;endArrow=block;endFill=1;" parent="1" source="12IVtjBrIT6F_KcPU9RN-19" target="12IVtjBrIT6F_KcPU9RN-16" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1200" y="1320" />
+              <mxPoint x="1200" y="1320" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="12IVtjBrIT6F_KcPU9RN-19" value="&lt;font style=&quot;border-color: var(--border-color); font-size: 16px;&quot;&gt;Search event processor&lt;/font&gt;&lt;br style=&quot;border-color: var(--border-color);&quot;&gt;&lt;i style=&quot;border-color: var(--border-color);&quot;&gt;[PHP, Roadrunner]&lt;/i&gt;&lt;br style=&quot;border-color: var(--border-color);&quot;&gt;&lt;br style=&quot;border-color: var(--border-color);&quot;&gt;Converts event into elastic search commands that can alter stored information" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#1ba1e2;fontColor=#ffffff;strokeColor=#006EAF;" parent="1" vertex="1">
+          <mxGeometry x="1080" y="1160" width="240" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="12IVtjBrIT6F_KcPU9RN-25" value="Queries data&lt;br style=&quot;border-color: var(--border-color);&quot;&gt;from" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;dashed=1;" parent="1" source="12IVtjBrIT6F_KcPU9RN-24" target="EWogtiMlTXVDmMaVuwzW-1" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="12IVtjBrIT6F_KcPU9RN-26" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;dashed=1;endArrow=block;endFill=1;" parent="1" source="12IVtjBrIT6F_KcPU9RN-24" target="ojdyIvmKSNVb5ML1ykqz-29" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1060" y="1220" />
+              <mxPoint x="1060" y="1020" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="12IVtjBrIT6F_KcPU9RN-27" value="Sends&lt;br style=&quot;border-color: var(--border-color);&quot;&gt;commands to" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="12IVtjBrIT6F_KcPU9RN-26" vertex="1" connectable="0">
+          <mxGeometry x="0.0472" y="-1" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="12IVtjBrIT6F_KcPU9RN-24" value="&lt;font style=&quot;border-color: var(--border-color); font-size: 16px;&quot;&gt;Search seeder&lt;/font&gt;&lt;br style=&quot;border-color: var(--border-color);&quot;&gt;&lt;i style=&quot;border-color: var(--border-color);&quot;&gt;[Shell, PHP]&lt;/i&gt;&lt;br style=&quot;border-color: var(--border-color);&quot;&gt;&lt;br style=&quot;border-color: var(--border-color);&quot;&gt;Fills an empty Elasticsearch&lt;br style=&quot;border-color: var(--border-color);&quot;&gt;instance with data from&lt;br style=&quot;border-color: var(--border-color);&quot;&gt;a relational database" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#1ba1e2;fontColor=#ffffff;strokeColor=#006EAF;" parent="1" vertex="1">
+          <mxGeometry x="800" y="1160" width="240" height="120" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

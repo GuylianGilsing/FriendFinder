@@ -1,0 +1,35 @@
+{
+    "name": "guyliangilsing/s6-friend-finder-service-search-lib-common",
+    "description": "Common functionality that is used within the search service.",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Guylian Gilsing",
+            "email": "gilsingguylian@gmail.com"
+        }
+    ],
+    "autoload": {
+        "files": ["./src/Search/_dependency-injection.php"],
+        "psr-4": {
+            "FriendFinder\\": "./src"
+        }
+    },
+    "config": {
+        "allow-plugins": {
+            "php-http/discovery": true,
+            "dealerdirect/phpcodesniffer-composer-installer": true
+        }
+    },
+    "require": {
+        "elasticsearch/elasticsearch": "^8.11"
+    },
+    "require-dev": {
+        "roave/security-advisories": "dev-latest",
+        "nunomaduro/phpinsights": "^2.11"
+    },
+    "scripts": {
+        "lint": "./vendor/bin/phpinsights analyse -v",
+        "lint:fix": "./vendor/bin/phpinsights analyse --fix"
+    }
+}

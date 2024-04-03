@@ -1,0 +1,364 @@
+stages:
+  - code-qa
+  - deploy-dockerhub
+
+# Quality assurance
+frontend-qa:
+  stage: code-qa
+  image: node:latest
+  only:
+    refs:
+      - development
+    changes:
+      - frontend-app/**/*
+  script:
+    - cd ./frontend-app
+    - npm ci
+    - npm run lint
+    - npm run tests:unit:ci
+
+lib-api-framework-qa:
+  stage: code-qa
+  image: php:8.2-bookworm
+  only:
+    refs:
+      - development
+    changes:
+      - lib-api-framework/**/*
+  before_script:
+    - apt update
+    - apt install curl git zip unzip -y
+    - pecl install pcov && docker-php-ext-enable pcov
+    - curl -sS https://getcomposer.org/installer -o composer-setup.php
+    - php composer-setup.php --install-dir=/usr/local/bin --filename=composer
+  script:
+    - cd ./lib-api-framework
+    - composer install
+    - composer run lint
+    - composer run tests:coverage
+
+lib-common-qa:
+  stage: code-qa
+  image: php:8.2-bookworm
+  only:
+    refs:
+      - development
+    changes:
+      - lib-common/**/*
+  before_script:
+    - apt update
+    - apt install curl git zip unzip libsodium-dev -y
+    - docker-php-ext-install sodium sockets
+    - pecl install pcov && docker-php-ext-enable pcov
+    - curl -sS https://getcomposer.org/installer -o composer-setup.php
+    - php composer-setup.php --install-dir=/usr/local/bin --filename=composer
+  script:
+    - cd ./lib-common
+    - composer install
+    - composer run lint
+    - composer run tests:coverage
+
+service-contact-information-qa:
+  stage: code-qa
+  image: php:8.2-bookworm
+  only:
+    refs:
+      - development
+    changes:
+      - service-contact-information/**/*
+  before_script:
+    - apt update
+    - apt install curl git zip unzip libsodium-dev -y
+    - docker-php-ext-install sodium sockets
+    - pecl install pcov && docker-php-ext-enable pcov
+    - curl -sS https://getcomposer.org/installer -o composer-setup.php
+    - php composer-setup.php --install-dir=/usr/local/bin --filename=composer
+  script:
+    - cd ./service-contact-information
+    - cp env.gitlab.php env.php
+    - composer install
+    - composer run lint
+    - composer run tests:coverage
+
+service-profile-information-qa:
+  stage: code-qa
+  image: php:8.2-bookworm
+  only:
+    refs:
+      - development
+    changes:
+      - service-profile-information/**/*
+  before_script:
+    - apt update
+    - apt install curl git zip unzip libsodium-dev -y
+    - docker-php-ext-install sodium sockets
+    - pecl install pcov && docker-php-ext-enable pcov
+    - curl -sS https://getcomposer.org/installer -o composer-setup.php
+    - php composer-setup.php --install-dir=/usr/local/bin --filename=composer
+  script:
+    - cd ./service-profile-information
+    - cp env.gitlab.php env.php
+    - composer install
+    - composer run lint
+    - composer run tests:coverage
+
+service-search-api-qa:
+  stage: code-qa
+  image: php:8.2-bookworm
+  only:
+    refs:
+      - development
+    changes:
+      - service-search/api/**/*
+  before_script:
+    - apt update
+    - apt install curl git zip unzip libsodium-dev -y
+    - docker-php-ext-install sodium sockets
+    - pecl install pcov && docker-php-ext-enable pcov
+    - curl -sS https://getcomposer.org/installer -o composer-setup.php
+    - php composer-setup.php --install-dir=/usr/local/bin --filename=composer
+  script:
+    - cd ./service-search/api
+    - cp env.gitlab.php env.php
+    - composer install
+    - composer run lint
+    - composer run tests:coverage
+
+service-search-event-processor-qa:
+  stage: code-qa
+  image: php:8.2-bookworm
+  only:
+    refs:
+      - development
+    changes:
+      - service-search/event-processor/**/*
+  before_script:
+    - apt update
+    - apt install curl git zip unzip libsodium-dev -y
+    - docker-php-ext-install sodium sockets
+    - pecl install pcov && docker-php-ext-enable pcov
+    - curl -sS https://getcomposer.org/installer -o composer-setup.php
+    - php composer-setup.php --install-dir=/usr/local/bin --filename=composer
+  script:
+    - cd ./service-search/event-processor
+    - cp env.gitlab.php env.php
+    - composer install
+    - composer run lint
+
+service-search-lib-common-qa:
+  stage: code-qa
+  image: php:8.2-bookworm
+  only:
+    refs:
+      - development
+    changes:
+      - service-search/lib-common/**/*
+  before_script:
+    - apt update
+    - apt install curl git zip unzip libsodium-dev -y
+    - docker-php-ext-install sodium sockets
+    - pecl install pcov && docker-php-ext-enable pcov
+    - curl -sS https://getcomposer.org/installer -o composer-setup.php
+    - php composer-setup.php --install-dir=/usr/local/bin --filename=composer
+  script:
+    - cd ./service-search/lib-common
+    - composer install
+    - composer run lint
+
+# Deploy -> Docker Hub
+keycloak-deploy-dockerhub:
+  image: docker:24
+  stage: deploy-dockerhub
+  only:
+    refs:
+      - main
+    changes:
+      - keycloak/**/*
+  services:
+    - name: docker:24-dind
+      alias: dockerdaemon
+  variables:
+    # https://stackoverflow.com/questions/61105333/cannot-connect-to-the-docker-daemon-at-tcp-localhost2375-is-the-docker-daem
+    # Tell docker CLI how to talk to Docker daemon; see
+    # https://docs.gitlab.com/ee/ci/docker/using_docker_build.html#use-docker-in-docker-executor
+    DOCKER_HOST: tcp://dockerdaemon:2375/
+    # Use the overlayfs driver for improved performance:
+    DOCKER_DRIVER: overlay2
+    DOCKER_TLS_CERTDIR: ""
+  script:
+    - cd ./keycloak
+    # Push to docker hub
+    - echo "$DOCKER_HUB_PASSWORD" | docker login -u "$DOCKER_HUB_USERNAME" docker.io --password-stdin
+    - docker build ./ -t guyliangilsing/s6-friend-finder:keycloak
+    - docker push guyliangilsing/s6-friend-finder:keycloak
+
+gateway-deploy-dockerhub:
+  image: docker:24
+  stage: deploy-dockerhub
+  only:
+    refs:
+      - main
+    changes:
+      - gateway/**/*
+  services:
+    - name: docker:24-dind
+      alias: dockerdaemon
+  variables:
+    DOCKER_HOST: tcp://dockerdaemon:2375/
+    DOCKER_DRIVER: overlay2
+    DOCKER_TLS_CERTDIR: ""
+  script:
+    - cd ./gateway
+    # Push to docker hub
+    - echo "$DOCKER_HUB_PASSWORD" | docker login -u "$DOCKER_HUB_USERNAME" docker.io --password-stdin
+    - docker build ./ -t guyliangilsing/s6-friend-finder:gateway
+    - docker push guyliangilsing/s6-friend-finder:gateway
+
+frontend-deploy-dockerhub:
+  image: docker:24
+  stage: deploy-dockerhub
+  only:
+    refs:
+      - main
+    changes:
+      - frontend-app/**/*
+  services:
+    - name: docker:24-dind
+      alias: dockerdaemon
+  variables:
+    DOCKER_HOST: tcp://dockerdaemon:2375/
+    DOCKER_DRIVER: overlay2
+    DOCKER_TLS_CERTDIR: ""
+  script:
+    # Setup php env file
+    - cd ./frontend-app
+    - cp .env.gitlab .env
+    - sed -i "s/GLCI_GATEWAY_URL/$GATEWAY_URL/g" .env
+    - sed -i "s/GLCI_KEYCLOAK_URL/$KEYCLOAK_URL/g" .env
+    - sed -i "s/GLCI_KEYCLOAK_REALM/$KEYCLOAK_REALM/g" .env
+    - sed -i "s/GLCI_KEYCLOAK_CLIENT_ID/$KEYCLOAK_CLIENT_ID/g" .env
+    # Push to docker hub
+    - echo "$DOCKER_HUB_PASSWORD" | docker login -u "$DOCKER_HUB_USERNAME" docker.io --password-stdin
+    - docker build ./ -t guyliangilsing/s6-friend-finder:frontend-app
+    - docker push guyliangilsing/s6-friend-finder:frontend-app
+
+service-contact-information-deploy-dockerhub:
+  image: docker:24
+  stage: deploy-dockerhub
+  only:
+    refs:
+      - main
+    changes:
+      - service-contact-information/**/*
+  services:
+    - name: docker:24-dind
+      alias: dockerdaemon
+  variables:
+    DOCKER_HOST: tcp://dockerdaemon:2375/
+    DOCKER_DRIVER: overlay2
+    DOCKER_TLS_CERTDIR: ""
+  script:
+    # Setup php env file
+    - cp ./service-contact-information/env.gitlab.php ./service-contact-information/env.php
+    - sed -i "s/GLCI_DB_HOST/$CONTACT_INFORMATION_DB_HOST/g" ./service-contact-information/env.php
+    - sed -i "s/GLCI_DB_USER/$CONTACT_INFORMATION_DB_USER/g" ./service-contact-information/env.php
+    - sed -i "s/GLCI_DB_PASSWORD/$CONTACT_INFORMATION_DB_PASSWORD/g" ./service-contact-information/env.php
+    - sed -i "s/GLCI_DB_NAME/$CONTACT_INFORMATION_DB_NAME/g" ./service-contact-information/env.php
+    # Push to docker hub
+    - echo "$DOCKER_HUB_PASSWORD" | docker login -u "$DOCKER_HUB_USERNAME" docker.io --password-stdin
+    - docker build ./ --file=./service-contact-information/Dockerfile -t guyliangilsing/s6-friend-finder:service-contact-information
+    - docker push guyliangilsing/s6-friend-finder:service-contact-information
+
+service-profile-information-deploy-dockerhub:
+  image: docker:24
+  stage: deploy-dockerhub
+  only:
+    refs:
+      - main
+    changes:
+      - service-profile-information/**/*
+  services:
+    - name: docker:24-dind
+      alias: dockerdaemon
+  variables:
+    DOCKER_HOST: tcp://dockerdaemon:2375/
+    DOCKER_DRIVER: overlay2
+    DOCKER_TLS_CERTDIR: ""
+  script:
+    # Setup roadrunner config
+    - unlink ./service-profile-information/.rr.yaml
+    - cp ./service-profile-information/.rr.gitlab.yaml ./service-profile-information/.rr.yaml
+    - sed -i "s/GLCI_AMQP_ADDR/$AMQP_ADDR/g" ./service-profile-information/.rr.yaml
+    - sed -i "s/GLCI_PROFILE_INFORMATION_QUEUE_NAME/$PROFILE_INFORMATION_QUEUE_NAME/g" ./service-profile-information/.rr.yaml
+    # Setup php env file
+    - cp ./service-profile-information/env.gitlab.php ./service-profile-information/env.php
+    - sed -i "s/GLCI_PROFILE_INFORMATION_DB_HOST/$PROFILE_INFORMATION_DB_HOST/g" ./service-profile-information/env.php
+    - sed -i "s/GLCI_PROFILE_INFORMATION_DB_USER/$PROFILE_INFORMATION_DB_USER/g" ./service-profile-information/env.php
+    - sed -i "s/GLCI_PROFILE_INFORMATION_DB_PASSWORD/$PROFILE_INFORMATION_DB_PASSWORD/g" ./service-profile-information/env.php
+    - sed -i "s/GLCI_PROFILE_INFORMATION_DB_NAME/$PROFILE_INFORMATION_DB_NAME/g" ./service-profile-information/env.php
+    - sed -i "s/GLCI_PROFILE_INFORMATION_QUEUE_NAME/$PROFILE_INFORMATION_QUEUE_NAME/g" ./service-profile-information/env.php
+    # Push to docker hub
+    - echo "$DOCKER_HUB_PASSWORD" | docker login -u "$DOCKER_HUB_USERNAME" docker.io --password-stdin
+    - docker build ./ --file=./service-profile-information/Dockerfile -t guyliangilsing/s6-friend-finder:service-profile-information
+    - docker push guyliangilsing/s6-friend-finder:service-profile-information
+
+service-search-api-deploy-dockerhub:
+  image: docker:24
+  stage: deploy-dockerhub
+  only:
+    refs:
+      - main
+    changes:
+      - service-search/api/**/*
+  services:
+    - name: docker:24-dind
+      alias: dockerdaemon
+  variables:
+    DOCKER_HOST: tcp://dockerdaemon:2375/
+    DOCKER_DRIVER: overlay2
+    DOCKER_TLS_CERTDIR: ""
+  script:
+    # Setup php env file
+    - cp ./service-search/api/env.gitlab.php ./service-search/api/env.php
+    - sed -i "s/GLCI_SEARCH_DB_HOST/$SEARCH_DB_HOST/g" ./service-search/api/env.php
+    - sed -i "s/GLCI_SEARCH_DB_USER/$SEARCH_DB_USER/g" ./service-search/api/env.php
+    - sed -i "s/GLCI_SEARCH_DB_PASSWORD/$SEARCH_DB_PASSWORD/g" ./service-search/api/env.php
+    - sed -i "s/GLCI_SEARCH_DB_NAME/$SEARCH_DB_NAME/g" ./service-search/api/env.php
+    - sed -i "s/GLCI_ELASTICSEARCH_HOST/$ELASTICSEARCH_HOST/g" ./service-search/api/env.php
+    - sed -i "s/GLCI_ELASTICSEARCH_USERNAME/$ELASTICSEARCH_USERNAME/g" ./service-search/api/env.php
+    - sed -i "s/GLCI_ELASTICSEARCH_PASSWORD/$ELASTICSEARCH_PASSWORD/g" ./service-search/api/env.php
+    # Push to docker hub
+    - echo "$DOCKER_HUB_PASSWORD" | docker login -u "$DOCKER_HUB_USERNAME" docker.io --password-stdin
+    - docker build ./ --file=./service-search/api/Dockerfile -t guyliangilsing/s6-friend-finder:service-search-api
+    - docker push guyliangilsing/s6-friend-finder:service-search-api
+
+service-search-event-processor-deploy-dockerhub:
+  image: docker:24
+  stage: deploy-dockerhub
+  only:
+    refs:
+      - main
+    changes:
+      - service-search/event-processor/**/*
+  services:
+    - name: docker:24-dind
+      alias: dockerdaemon
+  variables:
+    DOCKER_HOST: tcp://dockerdaemon:2375/
+    DOCKER_DRIVER: overlay2
+    DOCKER_TLS_CERTDIR: ""
+  script:
+    # Setup roadrunner config
+    - unlink ./service-search/event-processor/.rr.yaml
+    - cp ./service-search/event-processor/.rr.gitlab.yaml ./service-search/event-processor/.rr.yaml
+    - sed -i "s/GLCI_AMQP_ADDR/$AMQP_ADDR/g" ./service-search/event-processor/.rr.yaml
+    - sed -i "s/GLCI_PROFILE_INFORMATION_QUEUE_NAME/$PROFILE_INFORMATION_QUEUE_NAME/g" ./service-search/event-processor/.rr.yaml
+    # Setup php env file
+    - cp ./service-search/event-processor/env.gitlab.php ./service-search/event-processor/env.php
+    - sed -i "s/GLCI_ELASTICSEARCH_HOST/$ELASTICSEARCH_HOST/g" ./service-search/event-processor/env.php
+    - sed -i "s/GLCI_ELASTICSEARCH_USERNAME/$ELASTICSEARCH_USERNAME/g" ./service-search/event-processor/env.php
+    - sed -i "s/GLCI_ELASTICSEARCH_PASSWORD/$ELASTICSEARCH_PASSWORD/g" ./service-search/event-processor/env.php
+    # Push to docker hub
+    - echo "$DOCKER_HUB_PASSWORD" | docker login -u "$DOCKER_HUB_USERNAME" docker.io --password-stdin
+    - docker build ./ --file=./service-search/event-processor/Dockerfile -t guyliangilsing/s6-friend-finder:service-search-event-processor
+    - docker push guyliangilsing/s6-friend-finder:service-search-event-processor

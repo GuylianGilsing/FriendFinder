@@ -1,0 +1,47 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pod-gateway
+  labels:
+    app: pod-gateway
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: pod-gateway
+  template:
+    metadata:
+      labels:
+        app: pod-gateway
+    spec:
+      restartPolicy: Always
+      containers:
+      - name: pod-gateway
+        image: guyliangilsing/s6-friend-finder:gateway
+        imagePullPolicy: Always
+        readinessProbe:
+          httpGet:
+            path: /__health
+            port: 8080 # Pod port
+          initialDelaySeconds: 5
+          timeoutSeconds: 2
+          successThreshold: 1
+          failureThreshold: 3
+          periodSeconds: 10
+        ports:
+          - containerPort: 8080 # Pod port
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: service-gateway
+  labels:
+    app: service-gateway
+spec:
+  selector:
+    app: pod-gateway
+  type: ClusterIP # Internal IP address
+  ports:
+    - protocol: TCP
+      port: 8080 # Service port
+      targetPort: 8080 # Pod port

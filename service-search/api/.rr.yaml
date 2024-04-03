@@ -1,0 +1,10 @@
+version: "3"
+
+server:
+  # This service doesn't use its database yet
+  # on_init:
+  #   command: ./service-setup.sh
+  command: "php ./roadrunner/workers/http.php"
+
+http:
+  address: 0.0.0.0:8080

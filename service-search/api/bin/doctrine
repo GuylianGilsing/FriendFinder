@@ -1,0 +1,37 @@
+<?php
+
+declare(strict_types=1);
+
+use Doctrine\Migrations\Configuration\EntityManager\ExistingEntityManager;
+use Doctrine\Migrations\Configuration\Migration\PhpFile;
+use Doctrine\Migrations\DependencyFactory;
+use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\Tools\Console\ConsoleRunner;
+use Doctrine\ORM\Tools\Console\EntityManagerProvider\SingleManagerProvider;
+
+require_once __DIR__.'/../vendor/autoload.php';
+
+/** @var EntityManagerInterface $entityManager */
+$entityManager = get_dependency_container_instance()->get(EntityManagerInterface::class);
+
+$config = new PhpFile(__DIR__.'/../migrations.php');
+$dependencyFactory = DependencyFactory::fromEntityManager ($config, new ExistingEntityManager($entityManager));
+
+// Add custom commands here...
+$commands = [
+    new Doctrine\Migrations\Tools\Console\Command\DiffCommand($dependencyFactory),
+    new Doctrine\Migrations\Tools\Console\Command\DumpSchemaCommand($dependencyFactory),
+    new Doctrine\Migrations\Tools\Console\Command\ExecuteCommand($dependencyFactory),
+    new Doctrine\Migrations\Tools\Console\Command\GenerateCommand($dependencyFactory),
+    new Doctrine\Migrations\Tools\Console\Command\LatestCommand($dependencyFactory),
+    new Doctrine\Migrations\Tools\Console\Command\ListCommand($dependencyFactory),
+    new Doctrine\Migrations\Tools\Console\Command\MigrateCommand($dependencyFactory),
+    new Doctrine\Migrations\Tools\Console\Command\RollupCommand($dependencyFactory),
+    new Doctrine\Migrations\Tools\Console\Command\StatusCommand($dependencyFactory),
+    new Doctrine\Migrations\Tools\Console\Command\SyncMetadataCommand($dependencyFactory),
+    new Doctrine\Migrations\Tools\Console\Command\VersionCommand($dependencyFactory),
+];
+
+\Doctrine\DBAL\Types\Type::addType('uuid', Ramsey\Uuid\Doctrine\UuidType::class);
+
+ConsoleRunner::run(new SingleManagerProvider($entityManager), $commands);

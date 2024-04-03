@@ -1,0 +1,8 @@
+# Files
+*.bak
+env.php
+
+# Folders
+vendor/
+coverage/
+logs/
